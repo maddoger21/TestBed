@@ -1,7 +1,8 @@
 # TestBed
 Песочница для запуска консольных Java-программ под Android
 
-https://github.com/vv73/TestBed/blob/master/screenshot.png
+
+![screenshot](https://github.com/vv73/TestBed/blob/master/screenshot.png)
 
 **Ограничения:**
 
