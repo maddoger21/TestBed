@@ -4,9 +4,11 @@
 
 ![screenshot](https://github.com/vv73/TestBed/blob/master/screenshot.png)
 
+
 **Ограничения:**
 
 - Главный класс должен располагаться в корне (пример - MyProgram.java)
+![tree](https://github.com/vv73/TestBed/blob/master/tree.png)
 - Для ввода и вывода должны использоваться статические переменные класса - **подклассы** **Scanner** и **PrintStream**, 
 инициализированные при объявлении
 ```java
