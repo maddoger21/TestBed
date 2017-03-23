@@ -1,78 +1,60 @@
 package ru.samsung.itschool.testbed;
 
+import android.os.Handler;
+import android.os.Message;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import android.os.Message;
-
 public class AndroidInputStream extends java.io.InputStream {
 
-	
-		boolean valid = false;
 
-	MainActivity activity;
+	private Handler hIn;
+	private ByteArrayInputStream in;
+	private BlockingQueue<String> readLineArrayList = new LinkedBlockingQueue<>();
+	private boolean valid = false;
 
-	AndroidInputStream(MainActivity activity)
-	{
-		this.activity = activity;
+
+	AndroidInputStream(Handler hIn) {
+		this.hIn = hIn;
 	}
 
+	void addString(String string) {
+		try {
+			readLineArrayList.put(string);
+		} catch (InterruptedException e) {
 
-		@Override
-		public int read() throws IOException  {
-			
-			if (!valid)
-			{
-				bytes = (getString()+"\n").getBytes();
-				in = new ByteArrayInputStream(bytes);
-			}
-			
-			int x = in.read();
-			if (x == -1)
-			{
-				valid = false;
-			}	
-				
-			else
-			{
-				valid = true;
-			}
-			return x;
-		}
-		
-
-
-		 void process(String c) {
-			try {
-				readLineArrayList.put(c);
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-			}
-
+			e.printStackTrace();
 		}
 
-		private String getString() {
-			 
-			Message m = activity.hIn.obtainMessage(0, "");
-			activity.hIn.sendMessage(m);
-
-			try {
-				String s = readLineArrayList.take();
-				System.out.println(s);
-				return s;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-	
-		
-		private byte[] bytes;
-		private ByteArrayInputStream  in;
-		private BlockingQueue<String> readLineArrayList =  new LinkedBlockingQueue<String>();
-		
-		
 	}
+
+	@Override
+	public int read() throws IOException {
+		if (!valid) {
+			String inStr = getString() + "\n";
+			in = new ByteArrayInputStream(inStr.getBytes());
+			System.out.print(inStr);
+		}
+
+		int x = in.read();
+		valid = x != -1;
+		return x;
+	}
+
+	private String getString() {
+
+		Message m = hIn.obtainMessage(0, "");
+		hIn.sendMessage(m);
+
+		try {
+			return readLineArrayList.take();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}

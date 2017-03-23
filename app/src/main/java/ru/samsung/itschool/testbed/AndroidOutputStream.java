@@ -1,22 +1,23 @@
 package ru.samsung.itschool.testbed;
 
-import java.io.IOException;
+import android.os.Handler;
+import android.os.Message;
+
 import java.util.Arrays;
 
 public class AndroidOutputStream extends java.io.OutputStream {
 
 	private final int MAXLEN = 100; // MAXLEN OF OUTPUT TEXT
-
-	private TextFlusher flusher;
+	private Handler hOut;
 	private byte[] text = new byte[MAXLEN];
 	private int nBytes = 0;
 
-	public AndroidOutputStream(TextFlusher flusher) {
-		this.flusher = flusher;
+	public AndroidOutputStream(Handler hOut) {
+		this.hOut = hOut;
 	}
 
 	@Override
-	public void write(int oneByte) throws IOException {
+	public void write(int oneByte) {
 		text[nBytes++] = (byte) oneByte;
 		if (oneByte == '\n' || nBytes == MAXLEN) {
 			this.flush();
@@ -24,12 +25,12 @@ public class AndroidOutputStream extends java.io.OutputStream {
 	}
 
 	@Override
-	public void flush() throws IOException {
+	public void flush() {
 		if (nBytes == 0) {
 			return;
 		}
-		flusher.flush(new String(text, 0, nBytes));
-
+		Message m = hOut.obtainMessage(0, new String(text, 0, nBytes));
+		hOut.sendMessage(m);
 		nBytes = 0;
 		Arrays.fill(text, (byte) 0);
 	}
