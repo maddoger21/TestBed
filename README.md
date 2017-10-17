@@ -11,23 +11,16 @@
 
 ![tree](https://github.com/vv73/TestBed/blob/master/tree.png)
 
-Для ввода и вывода должны использоваться статические переменные класса - **подклассы** **Scanner** и **PrintStream**, 
-инициализированные при объявлении
+Пример консольной программы
 ```java
-import java.io.PrintStream;
 import java.util.Scanner;
-
 public class MyProgram
 {
-    // инструменты ввода-вывода
-    // TestBed их заменяет на свои
-    public static Scanner in = new Scanner(System.in);
-    public static PrintStream out = System.out;
-
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
         out.println("Enter two numbers");
         int x = in.nextInt(), y = in.nextInt();
-        int sum = x * y;
+        int sum = x + y;
         out.println("Sum of them is " + sum );
     }
 }
