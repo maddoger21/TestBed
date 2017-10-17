@@ -14,14 +14,13 @@
 Пример консольной программы
 ```java
 import java.util.Scanner;
-public class MyProgram
-{
-    public static void main(String[] args) {
+public class MyProgram{
+    public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         out.println("Enter two numbers");
         int x = in.nextInt(), y = in.nextInt();
         int sum = x + y;
-        out.println("Sum of them is " + sum );
+        out.println("Sum of them is " + sum);
     }
 }
 ```
